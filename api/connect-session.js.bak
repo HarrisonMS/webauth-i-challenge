@@ -1,0 +1,24 @@
+const sessions = require("express-session");
+const knexSessionStore = require("connect-session-knex")(sessions);
+
+const sessionConfiguration = {
+    name: "chocolatechip",
+    secret: "keep it a secret please watch over me cookie",
+    saveUninitialized: true,
+    resave:false,
+    store: new knexSessionStore({
+        knex,
+        createtable: true,
+
+        clearInterva: 1000 * 50 * 10,
+        sidfieldname: "sid",
+        tablename: "sessions",
+    }),
+    cookie: {
+        maxAge: 1000 * 60 * 10, 
+        secure: false,
+        httpOnly: true,
+    },
+};
+server.use(sessions(sessionConfiguration))
+module.exports = server;

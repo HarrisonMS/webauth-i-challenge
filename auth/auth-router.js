@@ -33,7 +33,7 @@ router.post("/login", (req, res) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         // in here with .compare()
         // change the users-model findBy() to return the password as well
-        res.status(200).json({ message: `Welcome ${user.username}!` });
+        res.status(200).json({ message: `How you doin ${user.username}` });
       } else {
         res.status(401).json({ message: "Invalid Credentials" });
       }
@@ -41,6 +41,23 @@ router.post("/login", (req, res) => {
     .catch(error => {
       res.status(500).json(error);
     });
+});
+
+router.get("/logout", (req, res) => {
+  if (req.session) {
+    req.session.destroy(error => {
+      if (error) {
+        res.status(500).json({
+          message:
+            "Unfortunately we can not let you leave at this time",
+        });
+      } else {
+        res.status(200).json({ message: "Bye bye now have a good day" });
+      }
+    });
+  } else {
+    res.status(200).end();
+  }
 });
 
 module.exports = router;

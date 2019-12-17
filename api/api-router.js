@@ -11,8 +11,8 @@ function logger(req, res, next) {
 	next();
 }
 
-router.usee(logger);
-router.use("./auth", authRouter);
+router.use(logger);
+router.use("/auth", authRouter);
 router.use("/users", usersRouter);
 
 router.get("/", (req, res) => {

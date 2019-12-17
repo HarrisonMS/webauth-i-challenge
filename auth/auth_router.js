@@ -2,13 +2,13 @@ const bcrypt = require("bcryptjs");
 
 const router = require("express").Router();
 
-const Users = require("../users/users-model.js");
+const Users = require("../users/users_model.js");
 
 router.post("/register", (req, res) => {
   let user = req.body;
 
   // hash the password
-  const hash = bcrypt.hashSync(user.password, 14); // the 8 is the number of rounds (2^8) (iterations)
+  const hash = bcrypt.hashSync(user.password, 8); // the 8 is the number of rounds (2^8) (iterations)
 
   // override the plain text password with the hash
   user.password = hash;
@@ -18,7 +18,7 @@ router.post("/register", (req, res) => {
       res.status(201).json(saved);
     })
     .catch(error => {
-      res.status(500).json(error);
+      res.status(500).json({ errorMessage: "cant create that user" });
     });
 });
 
